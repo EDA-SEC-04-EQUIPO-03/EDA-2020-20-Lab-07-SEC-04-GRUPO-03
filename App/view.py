@@ -52,7 +52,8 @@ def printMenu():
     print("1- Inicializar Analizador")
     print("2- Cargar información de accidentes")
     print("3- Accidentes según rango de fechas")
-    print("4- Requerimento 1 (Accidentes por severidad en una fecha determinada)")
+    print("4- Requerimiento 1 (Accidentes por severidad en una fecha determinada)")
+    print("5- Requerimiento 2 (Accidentes antes de una fecha)")
     print("0- Salir")
     print("*******************************************")
 
@@ -90,10 +91,17 @@ while True:
         print("\nBuscando accidentes por severidad en una fecha: ")
         initialDate = input("Fecha (YYYY-MM-DD): ")
         severity = input("Severidad del accidente: ")
-        total_accidentes = controller.getAccidentsByRangeSeverity(cont, initialDate,
-                                                      severity)
-        print("\nTotal de accidentes tipo: " + severity + " en esa fecha:  " +
-              str(total_accidentes))
+        total_accidentes = controller.getAccidentsByRangeSeverity(cont, initialDate,severity)
+        print("\nTotal de accidentes tipo: " + severity + " en esa fecha:  ")
+        #ciclo para imprimir 5 datos
+    elif int(inputs[0]) == 5:
+        print("\nRequerimiento No 2 del reto 3: ")
+        print("\nBuscando accidentes antes de una fecha: ")
+        MinDate = str(controller.minKey(cont))
+        MaxDate = input("Fecha (YYYY-MM-DD): ")
+        total_acci=controller.getAccidentsByRange(cont, MinDate, MaxDate)
+        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: ")  
+        #ciclo para imprimir 5 datos
     else:
         sys.exit(0)
 sys.exit(0)

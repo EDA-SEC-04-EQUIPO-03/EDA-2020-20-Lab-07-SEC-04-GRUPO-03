@@ -103,9 +103,10 @@ def maxKey(analyzer):
 
 def getAccidentsByRange(analyzer, initialDate,finalDate):
     """
-    Retorna el total de crimenes en un rango de fechas
+    Retorna el total de accidentes en un rango de fechas
     """
     initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
+    finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
     return model.getAccidentsByRange(analyzer, initialDate.date(),finalDate.date())
 
 def getAccidentsByRangeSeverity(analyzer, initialDate, severity):
