@@ -76,7 +76,7 @@ def updateDateIndex(map, accident):
     Si no se encuentra creado un nodo para esa fecha en el arbol
     se crea y se actualiza el indice de tipos de crimenes
     """
-    occurreddate = crime['Start_Time']
+    occurreddate = accident['Start_Time']
     accidentdata = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
     entry = om.get(map, accidentdata.date())
     if entry is None:
