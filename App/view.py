@@ -84,7 +84,7 @@ while True:
         initialDate = input("Fecha (YYYY-MM-DD): ")
         severity = input("Severidad del accidente: ")
         total_accidentes = controller.getAccidentsByRangeSeverity(cont, initialDate,severity)
-        print("\nTotal de accidentes tipo: " + severity + " en esa fecha:  "+ str(lt.size(lst)))
+        print("\nTotal de accidentes tipo: " + str(severity) + " en esa fecha:  "+ str(lt.size(total_accidentes)))
         
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
@@ -92,7 +92,7 @@ while True:
         MinDate = str(controller.minKey(cont))
         MaxDate = input("Fecha (YYYY-MM-DD): ")
         total_acci=controller.getAccidentsByRange(cont, MinDate, MaxDate)
-        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(lst)))  
+        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(total_acci)))  
         #print("\nLa fecha con más accidentes es:")
     else:
         sys.exit(0)
