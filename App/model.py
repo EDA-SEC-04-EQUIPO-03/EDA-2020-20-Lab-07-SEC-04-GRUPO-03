@@ -183,6 +183,7 @@ def getAccidentsByRangeSeverity(analyzer, initialDate, severitycode):
     de un tipo especifico.
     """
     axidate = om.get(analyzer['dateIndex'], initialDate)
+    print(srt(type(axidate)))
     if axidate['key'] is not None:
         severitymap = me.getValue(axidate)['SeverityIndex']
         numseverities = m.get(severitymap, severitycode)
