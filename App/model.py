@@ -130,7 +130,7 @@ def newSeverityEntry(entrada1, accident):
     sepentry = {'severity': None, 'lstSeverities': None}
     sepentry['severity'] = entrada1
     sepentry['lstSeverities'] = lt.newList('SINGLELINKED', compareSeverity)
-    return ofentry
+    return sepentry
 
 
 # ==============================
