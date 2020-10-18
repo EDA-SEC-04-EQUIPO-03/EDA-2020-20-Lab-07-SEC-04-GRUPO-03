@@ -51,9 +51,8 @@ def printMenu():
     print("Bienvenido")
     print("1- Inicializar Analizador")
     print("2- Cargar información de accidentes")
-    print("3- Accidentes según rango de fechas")
-    print("4- Requerimiento 1 (Accidentes por severidad en una fecha determinada)")
-    print("5- Requerimiento 2 (Accidentes antes de una fecha)")
+    print("3- Requerimiento 1 (Accidentes por severidad en una fecha determinada)")
+    print("4- Requerimiento 2 (Accidentes antes de una fecha)")
     print("0- Salir")
     print("*******************************************")
 
@@ -80,28 +79,21 @@ while True:
         print('Mayor Llave: ' + str(controller.maxKey(cont)))
 
     elif int(inputs[0]) == 3:
-        print("\nBuscando accidentes en un rango de fechas: ")
-        initialDate = input("Rango Inicial (YYYY-MM-DD): ")
-        finalDate = input("Rango Final (YYYY-MM-DD): ")
-        lst = controller.getAccidentsByRange(cont, initialDate, finalDate)
-        print("\nTotal de llaves en el rango: " + str(lt.size(lst)))
-
-    elif int(inputs[0]) == 4:
         print("\nRequerimiento No 1 del reto 3: ")
         print("\nBuscando accidentes por severidad en una fecha: ")
         initialDate = input("Fecha (YYYY-MM-DD): ")
         severity = input("Severidad del accidente: ")
         total_accidentes = controller.getAccidentsByRangeSeverity(cont, initialDate,severity)
-        print("\nTotal de accidentes tipo: " + severity + " en esa fecha:  ")
-        #ciclo para imprimir 5 datos
-    elif int(inputs[0]) == 5:
+        print("\nTotal de accidentes tipo: " + severity + " en esa fecha:  "+ str(lt.size(lst)))
+        
+    elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
         print("\nBuscando accidentes antes de una fecha: ")
         MinDate = str(controller.minKey(cont))
         MaxDate = input("Fecha (YYYY-MM-DD): ")
         total_acci=controller.getAccidentsByRange(cont, MinDate, MaxDate)
-        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: ")  
-        #ciclo para imprimir 5 datos
+        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(lst)))  
+        #print("\nLa fecha con más accidentes es:")
     else:
         sys.exit(0)
 sys.exit(0)
