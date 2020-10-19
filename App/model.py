@@ -52,7 +52,7 @@ def newAnalyzer():
                 }
 
     analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareIds)
-    analyzer['dateIndex'] = om.newMap(omaptype='BST',
+    analyzer['dateIndex'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareDates)
     return analyzer
 
@@ -184,12 +184,11 @@ def getAccidentsByRangeSeverity(analyzer, initialDate, severitycode):
     """
     axidate = om.get(analyzer['dateIndex'], initialDate)
     if axidate['key'] is not None:
-        severitymap = me.getValue(axidate)['offenseIndex']
-        valor = m.get(severitymap, severitycode)
-        if valor is not None:
-            cant= m.size(me.getValue(valor)['lstoffenses'])
-        cant= 0
-    return cant
+        severitymap = me.getValue(axidate)['SeverityIndex']
+        numseverities = m.get(severitymap, severitycode)
+        if numseverities is not None:
+            return m.size(me.getValue(numseverities)['lstSeverities'])
+        return 0 
 
 
 # ==============================

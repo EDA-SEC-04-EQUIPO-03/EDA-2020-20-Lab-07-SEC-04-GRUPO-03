@@ -23,6 +23,7 @@
 import sys
 import config
 from DISClib.ADT import list as lt
+from DISClib.DataStructures import linkedlistiterator as it
 from App import controller
 assert config
 
@@ -32,7 +33,21 @@ Presenta el menu de opciones  y  por cada seleccion
 hace la solicitud al controlador para ejecutar la
 operación seleccionada.
 """
+def hallar_muyrepetido(lst):
+    lista=[]
+    iterator = it.newIterator(lst)
+    maxi = 0
+    ret=None
+    while it.hasNext(iterator):
+        elemento = it.next(iterator)
+        lista.append(elemento)
+    for elem in lista:
+        cant=lista.count(elem)
+        if cant > maxi:
+            maxi = cant
+            ret=elem
 
+    return (ret,maxi)
 # ___________________________________________________
 #  Ruta a los archivos
 # ___________________________________________________
@@ -84,7 +99,7 @@ while True:
         initialDate = input("Fecha (YYYY-MM-DD): ")
         severity = input("Severidad del accidente: ")
         total_accidentes = controller.getAccidentsByRangeSeverity(cont, initialDate,severity)
-        print("\nTotal de accidentes tipo: " + str(severity) + " en esa fecha:  "+ str(lt.size(total_accidentes)))
+        print("\nTotal de accidentes tipo: " + str(severity) + " en esa fecha:  "+ str(total_accidentes))
         
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
@@ -92,8 +107,9 @@ while True:
         MinDate = str(controller.minKey(cont))
         MaxDate = input("Fecha (YYYY-MM-DD): ")
         total_acci=controller.getAccidentsByRange(cont, MinDate, MaxDate)
-        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(total_acci)))  
-        #print("\nLa fecha con más accidentes es:")
+        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(total_acci)))
+        repetido=hallar_muyrepetido(total_acci)
+        print("\nLa fecha con más accidentes es:"+str(repetido[0])+" con "+str(repetido[1])+" accidentes")
     else:
         sys.exit(0)
 sys.exit(0)
