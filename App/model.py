@@ -171,7 +171,7 @@ def maxKey(analyzer):
 
 def getAccidentsByRange(analyzer, initialDate, finalDate):
     """
-    Retorna el numero de accidentes en un rago de fechas.
+    Retorna el numero de accidentes en un rango de fechas.
     """
     lst = om.values(analyzer['dateIndex'], initialDate, finalDate)
     return lst
