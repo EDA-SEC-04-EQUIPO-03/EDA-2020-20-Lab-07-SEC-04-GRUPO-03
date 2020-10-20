@@ -125,7 +125,10 @@ while True:
         MinDate = str(controller.minKey(cont))
         MaxDate = input("Fecha (YYYY-MM-DD): ")
         total_acci=controller.getAccidentsByRange(cont, MinDate, MaxDate)
-        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(total_acci)))
+        iterator = it.newIterator(total_acci)
+        while it.hasNext(iterator):
+            ietar=it.next(iterator)
+            print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str((ietar["lstaccidents"]["size"])))
         repetido=controller.getMasRepetido(total_acci)
         print("\nLa fecha con más accidentes es:"+str(repetido[0])+" con "+str(repetido[1])+" accidentes")
     elif int(inputs[0]) == 5:
@@ -134,7 +137,10 @@ while True:
         initialDate = input("Rango Inicial (YYYY-MM-DD): ")
         finalDate = input("Rango Final (YYYY-MM-DD): ")
         lst = controller.getAccidentsByRange(cont, initialDate, finalDate)
-        print("\nTotal de accidentes en el rango: " + str(lt.size(lst)))
+        iterator = it.newIterator(total_acci)
+        while it.hasNext(iterator):
+            ietar=it.next(iterator)
+            print("\nTotal de accidentes en el rango: " + str(ietar["lstaccidents"]["size"])
         sev=controller.getCategoriaInRange(lst)
         print("La severidad de accidentes más reportada de "+str(initialDate)+" a "+str(finalDate)+" es: "+str(sev[0])+", cantidad: "+str(sev[1]))
     else:
