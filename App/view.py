@@ -23,6 +23,7 @@
 import sys
 import config
 from DISClib.ADT import list as lt
+from DISClib.DataStructures import linkedlistiterator as it
 from App import controller
 assert config
 
@@ -32,6 +33,37 @@ Presenta el menu de opciones  y  por cada seleccion
 hace la solicitud al controlador para ejecutar la
 operación seleccionada.
 """
+def hallar_muyrepetido(lst):
+    lista=[]
+    iterator = it.newIterator(lst)
+    while it.hasNext(iterator):
+        itet=it.next(iterator)
+        iterator2 = it.newIterator(itet["lstaccidents"])
+        while it.hasNext(iterator2):
+            itet2=it.next(iterator2)
+            lista.append(itet2["Start_Time"])
+    maxi = 0
+    ret=None
+    for cada_fecha in lista:
+        cant=lista.count(cada_fecha)
+        if cant > maxi:
+            maxi = cant
+            ret=cada_fecha
+    return (ret,maxi)
+
+    #externo
+    #Total de accidentes antes de 2016-02-08 son: 1
+    #dict_keys(['iterable_lst', 'current_node', 'type'])
+
+    #Keys de iterable_lst
+    #Total de accidentes antes de 2016-02-08 son: 1
+    #dict_keys(['first', 'last', 'size', 'type', 'cmpfunction'])
+    #Values de iterable_lst
+    #Datos del excel    
+
+    #Keys de cada iterador, cada pos singlelikedlist
+    #dict_keys(['SeverityIndex', 'lstaccidents'])
+
 
 # ___________________________________________________
 #  Ruta a los archivos
@@ -53,6 +85,7 @@ def printMenu():
     print("2- Cargar información de accidentes")
     print("3- Requerimiento 1 (Accidentes por severidad en una fecha determinada)")
     print("4- Requerimiento 2 (Accidentes antes de una fecha)")
+    print("5- Requerimiento 3 (Conocer accidentes en un rango de fechas)")
     print("0- Salir")
     print("*******************************************")
 
@@ -84,7 +117,7 @@ while True:
         initialDate = input("Fecha (YYYY-MM-DD): ")
         severity = input("Severidad del accidente: ")
         total_accidentes = controller.getAccidentsByRangeSeverity(cont, initialDate,severity)
-        print("\nTotal de accidentes tipo: " + severity + " en esa fecha:  "+ str(lt.size(lst)))
+        print("\nTotal de accidentes tipo: " + str(severity) + " en esa fecha:  "+ str(total_accidentes))
         
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
@@ -92,8 +125,18 @@ while True:
         MinDate = str(controller.minKey(cont))
         MaxDate = input("Fecha (YYYY-MM-DD): ")
         total_acci=controller.getAccidentsByRange(cont, MinDate, MaxDate)
-        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(lst)))  
-        #print("\nLa fecha con más accidentes es:")
+        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(lt.size(total_acci)))
+        repetido=controller.getMasRepetido(total_acci)
+        print("\nLa fecha con más accidentes es:"+str(repetido[0])+" con "+str(repetido[1])+" accidentes")
+    elif int(inputs[0]) == 5:
+        print("\nRequerimiento No 3 del reto 3: ")
+        print("\nBuscando accidentes en un rango de fechas: ")
+        initialDate = input("Rango Inicial (YYYY-MM-DD): ")
+        finalDate = input("Rango Final (YYYY-MM-DD): ")
+        lst = controller.getAccidentsByRange(cont, initialDate, finalDate)
+        print("\nTotal de accidentes en el rango: " + str(lt.size(lst)))
+        sev=controller.getCategoriaInRange(lst)
+        print("La severidad de accidentes más reportada de "+str(initialDate)+" a "+str(finalDate)+" es: "+str(sev[0])+", cantidad: "+str(sev[1]))
     else:
         sys.exit(0)
 sys.exit(0)

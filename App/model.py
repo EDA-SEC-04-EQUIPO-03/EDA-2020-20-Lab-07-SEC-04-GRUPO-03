@@ -23,6 +23,7 @@ import config
 from DISClib.ADT import list as lt
 from DISClib.ADT import orderedmap as om
 from DISClib.DataStructures import mapentry as me
+from DISClib.DataStructures import linkedlistiterator as it
 from DISClib.ADT import map as m
 import datetime
 assert config
@@ -190,6 +191,45 @@ def getAccidentsByRangeSeverity(analyzer, initialDate, severitycode):
             return m.size(me.getValue(numseverities)['lstSeverities'])
         return 0 
 
+def hallar_muyrepetido(lst):
+    lista=[]
+    iterator = it.newIterator(lst)
+    while it.hasNext(iterator):
+        itet=it.next(iterator)
+        iterator2 = it.newIterator(itet["lstaccidents"])
+        while it.hasNext(iterator2):
+            itet2=it.next(iterator2)
+            fechahora=datetime.datetime.strptime(itet2["Start_Time"], '%Y-%m-%d %H:%M:%S')
+            lista.append(fechahora.date())      
+    maxi = 0
+    ret=None
+    for cada_fecha in lista:
+        cant=lista.count(cada_fecha)
+        if cant > maxi:
+            maxi = cant
+            ret=cada_fecha
+    return (ret,maxi)
+
+#datetime.datetime.strptime(itet2["Start_Time"], '%Y-%m-%d'   --- hora '%Y-%m-%d %H:%M:%S')
+#datetime.datetime.hour(fecha completa, %H:%M:%S')  
+
+def hallar_categoria(lst):
+    lista=[]
+    iterator = it.newIterator(lst)
+    while it.hasNext(iterator):
+        itet=it.next(iterator)
+        iterator2 = it.newIterator(itet["lstaccidents"])
+        while it.hasNext(iterator2):
+            itet2=it.next(iterator2)
+            lista.append(itet2["Severity"])
+    maxi = 0
+    ret=None
+    for severidad in lista:
+        cant=lista.count(severidad)
+        if cant > maxi:
+            maxi = cant
+            ret=severidad
+    return (ret,maxi)
 
 # ==============================
 # Funciones de Comparacion
