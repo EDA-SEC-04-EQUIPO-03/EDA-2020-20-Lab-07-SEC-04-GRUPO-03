@@ -116,3 +116,11 @@ def getAccidentsByRangeSeverity(analyzer, initialDate, severity):
     """
     initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
     return model.getAccidentsByRangeSeverity(analyzer, initialDate.date(),severity)
+
+def getMasRepetido(lst):
+    repitis=model.hallar_muyrepetido(lst)
+    return repitis
+
+def getCategoriaInRange(lst):
+    cat=model.hallar_categoria(lst)
+    return cat
