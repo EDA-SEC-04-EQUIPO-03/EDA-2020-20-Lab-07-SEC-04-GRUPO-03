@@ -88,6 +88,12 @@ def updateDateIndex(map, accident):
     addDateIndex(datentry, accident)
     return map
 
+    #a=gey.......
+    #a["fecha"]["root"]["size"]
+    #recorrido iterator
+    #    iterador["root"]["size"]
+    #
+    #({fecha1:{"root":info single linked, "comfuntion":None,"":}, "size":1, "compuftion":None},{fecha2:....})
 
 def addDateIndex(datentry, accident):
     """
