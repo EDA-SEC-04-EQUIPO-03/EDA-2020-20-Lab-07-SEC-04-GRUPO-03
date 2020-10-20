@@ -199,18 +199,19 @@ def hallar_muyrepetido(lst):
         iterator2 = it.newIterator(itet["lstaccidents"])
         while it.hasNext(iterator2):
             itet2=it.next(iterator2)
-            fecha=itet2["Start_Time"].strip().replace("]","")
-            lista.append(datetime.datetime.strptime(fecha, '%Y-%m-%d'))
+            fechahora=datetime.datetime.strptime(itet2["Start_Time"], '%Y-%m-%d %H:%M:%S')
+            lista.append(fechahora.date())      
     maxi = 0
     ret=None
     for cada_fecha in lista:
-        cant=lista.count(cada_fecha.date())
+        cant=lista.count(cada_fecha)
         if cant > maxi:
             maxi = cant
-            ret=cada_fecha.date()
+            ret=cada_fecha
     return (ret,maxi)
 
-#datetime.datetime.strptime(itet2["Start_Time"], '%Y-%m-%d')
+#datetime.datetime.strptime(itet2["Start_Time"], '%Y-%m-%d'   --- hora '%Y-%m-%d %H:%M:%S')
+#datetime.datetime.hour(fecha completa, %H:%M:%S')  
 
 def hallar_categoria(lst):
     lista=[]
