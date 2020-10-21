@@ -237,6 +237,25 @@ def hallar_categoria(lst):
             ret=severidad
     return (ret,maxi)
 
+
+def getStateInRange(lst):
+    lista=[]
+    iterator = it.newIterator(lst)
+    while it.hasNext(iterator):
+        itet=it.next(iterator)
+        iterator2 = it.newIterator(itet["lstaccidents"])
+        while it.hasNext(iterator2):
+            itet2=it.next(iterator2)
+            lista.append(itet2["State"])
+    maxi = 0
+    ret=None
+    for estado in lista:
+        cant=lista.count(estado)
+        if cant > maxi:
+            maxi = cant
+            ret=estado
+    return (ret,maxi)
+
 # ==============================
 # Funciones de Comparacion
 # ==============================

@@ -117,6 +117,10 @@ def getAccidentsByRangeSeverity(analyzer, initialDate, severity):
     initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
     return model.getAccidentsByRangeSeverity(analyzer, initialDate.date(),severity)
 
+def getStateInRange(lst):
+    estado=model.getStateInRange(lst)
+    return estado
+
 def getMasRepetido(lst):
     repitis=model.hallar_muyrepetido(lst)
     return repitis
