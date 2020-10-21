@@ -86,6 +86,7 @@ def printMenu():
     print("3- Requerimiento 1 (Accidentes por severidad en una fecha determinada)")
     print("4- Requerimiento 2 (Accidentes antes de una fecha)")
     print("5- Requerimiento 3 (Conocer accidentes en un rango de fechas)")
+    print("6- Requerimiento 4 (Conocer el estado con más accidentes en un rango de fechas)")
     print("0- Salir")
     print("*******************************************")
 
@@ -138,11 +139,21 @@ while True:
         finalDate = input("Rango Final (YYYY-MM-DD): ")
         lst = controller.getAccidentsByRange(cont, initialDate, finalDate)
         iterator = it.newIterator(total_acci)
-        while it.hasNext(iterator):
+        if it.hasNext(iterator):
             ietar=it.next(iterator)
-            print("\nTotal de accidentes en el rango: " + str(ietar["lstaccidents"]["size"])
-        sev=controller.getCategoriaInRange(lst)
-        print("La severidad de accidentes más reportada de "+str(initialDate)+" a "+str(finalDate)+" es: "+str(sev[0])+", cantidad: "+str(sev[1]))
+            print("\nTotal de accidentes en el rango: " + str(ietar["lstaccidents"]["size"]))
+        tupla=controller.getCategoriaInRange(lst)
+        print("La severidad de accidentes más reportada de "+str(initialDate)+" a "+str(finalDate)+" es: "+str(tupla[0])+", cantidad: "+str(tupla[1]))
+    elif int(inputs[0]) == 6:
+        print("\nRequerimiento No 4 del reto 3: ")
+        print("\nBuscando estado en un rango de fechas: ")
+        initialDate = input("Rango Inicial (YYYY-MM-DD): ")
+        finalDate = input("Rango Final (YYYY-MM-DD): ")
+        lstt = controller.getAccidentsByRange(cont, initialDate, finalDate)
+        seb=controller.getStateInRange(lstt)
+        repetir=controller.getMasRepetido(lstt)
+        print("El estado con más accidentes reportados es: "+str(seb[0])+" con una cantidad de "+str(seb[1]))
+        print("La fecha con más accidentes es: "+str(repetir[0])+" con "+str(repetir[1]))
     else:
         sys.exit(0)
 sys.exit(0)
