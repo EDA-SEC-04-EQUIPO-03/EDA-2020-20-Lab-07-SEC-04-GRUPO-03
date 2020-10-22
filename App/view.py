@@ -87,6 +87,7 @@ def printMenu():
     print("4- Requerimiento 2 (Accidentes antes de una fecha)")
     print("5- Requerimiento 3 (Conocer accidentes en un rango de fechas)")
     print("6- Requerimiento 4 (Conocer el estado con más accidentes en un rango de fechas)")
+    print("7- Requerimiento 5 (Conocer los accidentes por rango de horas)")
     print("0- Salir")
     print("*******************************************")
 
@@ -154,6 +155,23 @@ while True:
         repetir=controller.getMasRepetido(lstt)
         print("El estado con más accidentes reportados es: "+str(seb[0])+" con una cantidad de "+str(seb[1]))
         print("La fecha con más accidentes es: "+str(repetir[0])+" con "+str(repetir[1]))
+    elif int(inputs[0]) == 7:
+        print("\nRequerimiento No 5 del reto 3: ")
+        print("\nBuscando accidentes en un rango de horas: ")
+        print("Por la seguridad del programa, inserte las fechas con formato 00:00:00 hasta 23:59:00")
+        initialHour = input("Rango Inicial (HH-MM-SS): ")
+        finalHour = input("Rango Final (HH-MM-SS): ")
+        initialHour=controller.ajustarhora(initialHour)
+        finalHour=controller.ajustarhora(finalHour)
+        print(initialHour+","+finalHour)
+        linked=controller.getAccidentsByRangeHora(cont, initialHour, finalHour)
+        print(controller.getAccidentesPorHora(linked))
+        #print("Los accidentes ocurridos entre: "+str(initialHour)+" y "+str(finalHour)+" son: "+str(len(lista)/2)
+        #i=0
+        #while i!=(len(lista)/2):
+        #   print("Severidad: "+str(lista[0+i]+" son: "+str(lista[i+1])))
+        #   i+=1
+        #print("Accidentes por severidad: ")
     else:
         sys.exit(0)
 sys.exit(0)

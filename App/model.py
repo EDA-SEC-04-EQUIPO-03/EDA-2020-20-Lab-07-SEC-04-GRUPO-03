@@ -123,7 +123,7 @@ def newDataEntry(accident):
     """
     entry = {'SeverityIndex': None, 'lstaccidents': None}
     entry['SeverityIndex'] = m.newMap(numelements=30,
-                                     maptype='PROBING',
+                                     maptype='CHAINING',
                                      comparefunction=compareSeverity)
     entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareDates)
     return entry
@@ -217,7 +217,7 @@ def hallar_muyrepetido(lst):
     return (ret,maxi)
 
 #datetime.datetime.strptime(itet2["Start_Time"], '%Y-%m-%d'   --- hora '%Y-%m-%d %H:%M:%S')
-#datetime.datetime.hour(fecha completa, %H:%M:%S')  
+#datetime.datetime.hour(fecha completa, '%H:%M:%S')  
 
 def hallar_categoria(lst):
     lista=[]
@@ -255,6 +255,32 @@ def getStateInRange(lst):
             maxi = cant
             ret=estado
     return (ret,maxi)
+
+def ObtenerAccidentesPorHora(lst):
+    lista=[]
+    iterator = it.newIterator(lst)
+    while it.hasNext(iterator):
+        itet=it.next(iterator)
+        m.size(itet["SeverityIndex"])
+        i=0
+        while i!=size:
+            cada_single_linked=m.valueSet(itet["SeverityIndex"])
+            iterator3=it.newIterator(cada_single_linked)
+            while it.hasNext(iterator3):
+                itat=it.next(iterator3)
+                total=lt.size(itat)
+                sev=i
+                lista.append(sev)
+                lista.append(total)
+            i+=1
+    return lista
+
+def getAccidentsByRangeHora(analyzer, initialDate, finalDate):
+    """
+    Retorna el numero de accidentes en un rago de fechas.
+    """
+    lst = om.values(analyzer['dateIndex'], initialDate, finalDate)
+    return lst
 
 # ==============================
 # Funciones de Comparacion
@@ -298,3 +324,23 @@ def compareSeverity(severity1, severity2):
         return 1
     else:
         return -1
+
+def ajustarhora(hora):
+    "(HH-MM-SS)"
+    #fecha_str = "14/07/2014"
+    #date_object = datetime.strptime(fecha_str, '%H:%M:%S')
+    #fecha_str = datetime.strftime(date_object, '%H:%M:%S'')
+    m1=hora[3]
+    m2=hora[4]
+    h1=hora[0]
+    h2=hora[1]
+    HH=h1+h2
+    MM=m1+m2
+    if int(MM) < 30:
+        ret=hora.replace(MM,"30")
+    elif int(MM) > 30 and int(HH)!=23:
+        h2 = int(h2)+1
+        ret=hora.replace(HH,h1+str(h2)).replace(MM,"00")
+    elif int(MM) > 30 and int(HH)==23:
+        ret=hora.replace(MM,"00").replace(HH,"00")
+    return ret

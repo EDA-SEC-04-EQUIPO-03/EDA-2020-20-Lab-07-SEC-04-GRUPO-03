@@ -107,7 +107,15 @@ def getAccidentsByRange(analyzer, initialDate,finalDate):
     """
     initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
     finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
-    return model.getAccidentsByRange(analyzer, initialDate.date(),finalDate.date())
+    return model.getAccidentsByRange(analyzer, initialDate,finalDate)
+
+def getAccidentsByRangeHora(analyzer, initialDate,finalDate):
+    """
+    Retorna el total de accidentes en un rango de fechas
+    """
+    initialDate = datetime.datetime.strptime(initialDate, '%H:%M:%S')
+    finalDate = datetime.datetime.strptime(finalDate, '%H:%M:%S')
+    return model.getAccidentsByRangeHora(analyzer, initialDate,finalDate)
 
 def getAccidentsByRangeSeverity(analyzer, initialDate, severity):
     """
@@ -128,3 +136,11 @@ def getMasRepetido(lst):
 def getCategoriaInRange(lst):
     cat=model.hallar_categoria(lst)
     return cat
+
+def getAccidentesPorHora(lst):
+    acc=model.ObtenerAccidentesPorHora(lst)
+    return acc
+
+def ajustarhora(hora):
+    a=model.ajustarhora(hora)
+    return a
