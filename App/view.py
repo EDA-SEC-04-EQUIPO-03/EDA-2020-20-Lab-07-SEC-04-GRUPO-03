@@ -163,15 +163,21 @@ while True:
         finalHour = input("Rango Final (HH-MM-SS): ")
         initialHour=controller.ajustarhora(initialHour)
         finalHour=controller.ajustarhora(finalHour)
-        print(initialHour+","+finalHour)
+        #print(initialHour+","+finalHour)
         linked=controller.getAccidentsByRangeHora(cont, initialHour, finalHour)
-        print(controller.getAccidentesPorHora(linked))
-        #print("Los accidentes ocurridos entre: "+str(initialHour)+" y "+str(finalHour)+" son: "+str(len(lista)/2)
-        #i=0
-        #while i!=(len(lista)/2):
-        #   print("Severidad: "+str(lista[0+i]+" son: "+str(lista[i+1])))
-        #   i+=1
-        #print("Accidentes por severidad: ")
+        acc=controller.getAccidentesPorHora(linked)
+        print("Los accidentes ocurridos entre: "+str(initialHour)+" y "+str(finalHour)+" son: "+str(acc[0][0]))
+        print("Accidentes por severidad 1: "+str(acc[1]["Severidad1"]))
+        print("Accidentes por severidad 2: "+str(acc[1]["Severidad2"]))
+        print("Accidentes por severidad 3: "+str(acc[1]["Severidad3"]))
+        print("Accidentes por severidad 4: "+str(acc[1]["Severidad4"]))
+        print("__________________________________________________________")
+        print("El porcentaje de accidentes de severidad 1: "+str(acc[0][1]))
+        print("El porcentaje de accidentes de severidad 2: "+str(acc[0][2]))
+        print("El porcentaje de accidentes de severidad 3: "+str(acc[0][3]))
+        print("El porcentaje de accidentes de severidad 4: "+str(acc[0][4]))
+        v=(acc[0][0]/controller.accidentsSize(cont))*100
+        print("Porcentaje de accidentes ocurridos entre: "+str(initialHour)+" y "+str(finalHour)+" vs los totales son: "+str(round(v,2)))
     else:
         sys.exit(0)
 sys.exit(0)

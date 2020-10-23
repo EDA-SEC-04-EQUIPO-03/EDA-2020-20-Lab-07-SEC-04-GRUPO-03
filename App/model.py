@@ -49,12 +49,15 @@ def newAnalyzer():
     Retorna el analizador inicializado.
     """
     analyzer = {'accidents': None,
-                'dateIndex': None
+                'dateIndex': None,
+                'hourIndex':None
                 }
 
     analyzer['accidents'] = lt.newList('SINGLE_LINKED', compareIds)
     analyzer['dateIndex'] = om.newMap(omaptype='RBT',
                                       comparefunction=compareDates)
+    analyzer["hourIndex"] = om.newMap(omaptype='RBT',
+                                      comparefunction=compareHour)
     return analyzer
 
 
@@ -65,8 +68,42 @@ def addAccident(analyzer, accident):
     """
     lt.addLast(analyzer['accidents'], accident)
     updateDateIndex(analyzer['dateIndex'], accident)
+    updateHourIndex(analyzer['hourIndex'], accident)
     return analyzer
 
+def updateHourIndex(map, accident):
+    """
+    Se toma la fecha del crimen y se busca si ya existe en el arbol
+    dicha hora.  Si es asi, se adiciona a su lista de crimenes
+    y se actualiza el indice de tipos de crimenes.
+
+    Si no se encuentra creado un nodo para esa fecha en el arbol
+    se crea y se actualiza el indice de tipos de crimenes
+    """
+    horaaccidente = accident['Start_Time']
+    accidenthour = datetime.datetime.strptime(horaaccidente, '%Y-%m-%d %H:%M:%S')
+    entry = om.get(map, accidenthour.time())
+    if entry is None:
+        datentry = newHourEntry(accident)
+        om.put(map, accidenthour.time(), datentry)
+    else:
+        datentry = me.getValue(entry)
+    addhour(datentry, accident)
+    return map
+
+def newHourEntry(accident):
+    """
+    Crea una entrada en el indice por fechas, es decir en el arbol
+    binario.
+    """
+    entry = {'lstaccidents': None}
+    entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareHour)
+    return entry
+
+def addhour(datentry, accident):
+    lst = datentry['lstaccidents']
+    lt.addLast(lst, accident)
+    return datentry
 
 def updateDateIndex(map, accident):
     """
@@ -123,7 +160,7 @@ def newDataEntry(accident):
     """
     entry = {'SeverityIndex': None, 'lstaccidents': None}
     entry['SeverityIndex'] = m.newMap(numelements=30,
-                                     maptype='CHAINING',
+                                     maptype='PROBING',
                                      comparefunction=compareSeverity)
     entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareDates)
     return entry
@@ -258,28 +295,47 @@ def getStateInRange(lst):
 
 def ObtenerAccidentesPorHora(lst):
     lista=[]
+    dik={"Severidad1":0,"Severidad2":0,"Severidad3":0,"Severidad4":0}
+    m=0
+    tamanol=lt.size(lst)
+    print("# singlelinked con fecha distinta ó # de ramas en rango : "+str(tamanol))
     iterator = it.newIterator(lst)
     while it.hasNext(iterator):
         itet=it.next(iterator)
-        m.size(itet["SeverityIndex"])
+        tamanor=lt.size(itet["lstaccidents"])
+        #print("# de single linked con misma hora :"+str(tamanor)) ->1
+        #print(itet.keys())  r=lstaccidents
         i=0
-        while i!=size:
-            cada_single_linked=m.valueSet(itet["SeverityIndex"])
-            iterator3=it.newIterator(cada_single_linked)
+        while i!=tamanor:
+            iterator3=it.newIterator(itet["lstaccidents"])
             while it.hasNext(iterator3):
                 itat=it.next(iterator3)
-                total=lt.size(itat)
-                sev=i
-                lista.append(sev)
-                lista.append(total)
+                if int(itat["Severity"])==1:
+                    dik["Severidad1"]=dik["Severidad1"]+1
+                elif int(itat["Severity"])==2:
+                    dik["Severidad2"]=dik["Severidad2"]+1
+                elif int(itat["Severity"])==3:
+                    dik["Severidad3"]=dik["Severidad3"]+1
+                elif int(itat["Severity"])==4:
+                    dik["Severidad4"]=dik["Severidad4"]+1
             i+=1
-    return lista
+        m=m+i
+    lista.append(m)
+    porcentajesev1=round(((dik["Severidad1"]/m)*100),2)
+    porcentajesev2=round(((dik["Severidad2"]/m)*100),2)
+    porcentajesev3=round(((dik["Severidad3"]/m)*100),2)
+    porcentajesev4=round(((dik["Severidad4"]/m)*100),2)
+    lista.append(porcentajesev1)
+    lista.append(porcentajesev2)
+    lista.append(porcentajesev3)
+    lista.append(porcentajesev4)
+    return (lista,dik)
 
 def getAccidentsByRangeHora(analyzer, initialDate, finalDate):
     """
     Retorna el numero de accidentes en un rago de fechas.
     """
-    lst = om.values(analyzer['dateIndex'], initialDate, finalDate)
+    lst = om.values(analyzer['hourIndex'], initialDate.time(), finalDate.time())
     return lst
 
 # ==============================
@@ -307,6 +363,18 @@ def compareDates(date1, date2):
     if (date1 == date2):
         return 0
     elif (date1 > date2):
+        return 1
+    else:
+        return -1
+
+def compareHour(hour1, hour2):
+    """
+    Compara dos ids de libros, id es un identificador
+    y entry una pareja llave-valor
+    """
+    if (hour1 == hour2):
+        return 0
+    elif (hour1 > hour2):
         return 1
     else:
         return -1
