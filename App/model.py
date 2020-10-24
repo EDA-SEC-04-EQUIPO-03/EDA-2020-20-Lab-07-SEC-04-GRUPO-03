@@ -64,22 +64,12 @@ def newAnalyzer():
 # Funciones para agregar informacion al catalogo
 
 def addAccident(analyzer, accident):
-    """
-    """
     lt.addLast(analyzer['accidents'], accident)
     updateDateIndex(analyzer['dateIndex'], accident)
     updateHourIndex(analyzer['hourIndex'], accident)
     return analyzer
 
 def updateHourIndex(map, accident):
-    """
-    Se toma la fecha del crimen y se busca si ya existe en el arbol
-    dicha hora.  Si es asi, se adiciona a su lista de crimenes
-    y se actualiza el indice de tipos de crimenes.
-
-    Si no se encuentra creado un nodo para esa fecha en el arbol
-    se crea y se actualiza el indice de tipos de crimenes
-    """
     horaaccidente = accident['Start_Time']
     accidenthour = datetime.datetime.strptime(horaaccidente, '%Y-%m-%d %H:%M:%S')
     entry = om.get(map, accidenthour.time())
@@ -92,10 +82,6 @@ def updateHourIndex(map, accident):
     return map
 
 def newHourEntry(accident):
-    """
-    Crea una entrada en el indice por fechas, es decir en el arbol
-    binario.
-    """
     entry = {'lstaccidents': None}
     entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareHour)
     return entry
@@ -106,14 +92,6 @@ def addhour(datentry, accident):
     return datentry
 
 def updateDateIndex(map, accident):
-    """
-    Se toma la fecha del crimen y se busca si ya existe en el arbol
-    dicha fecha.  Si es asi, se adiciona a su lista de crimenes
-    y se actualiza el indice de tipos de crimenes.
-
-    Si no se encuentra creado un nodo para esa fecha en el arbol
-    se crea y se actualiza el indice de tipos de crimenes
-    """
     occurreddate = accident['Start_Time']
     accidentdata = datetime.datetime.strptime(occurreddate, '%Y-%m-%d %H:%M:%S')
     entry = om.get(map, accidentdata.date())
@@ -125,20 +103,7 @@ def updateDateIndex(map, accident):
     addDateIndex(datentry, accident)
     return map
 
-    #a=gey.......
-    #a["fecha"]["root"]["size"]
-    #recorrido iterator
-    #    iterador["root"]["size"]
-    #
-    #({fecha1:{"root":info single linked, "comfuntion":None,"":}, "size":1, "compuftion":None},{fecha2:....})
-
 def addDateIndex(datentry, accident):
-    """
-    Actualiza un indice de tipo de crimenes.  Este indice tiene una lista
-    de crimenes y una tabla de hash cuya llave es el tipo de crimen y
-    el valor es una lista con los crimenes de dicho tipo en la fecha que
-    se está consultando (dada por el nodo del arbol)
-    """
     lst = datentry['lstaccidents']
     lt.addLast(lst, accident)
     Seveindex = datentry['SeverityIndex']
@@ -154,10 +119,6 @@ def addDateIndex(datentry, accident):
 
 
 def newDataEntry(accident):
-    """
-    Crea una entrada en el indice por fechas, es decir en el arbol
-    binario.
-    """
     entry = {'SeverityIndex': None, 'lstaccidents': None}
     entry['SeverityIndex'] = m.newMap(numelements=30,
                                      maptype='PROBING',
@@ -167,10 +128,6 @@ def newDataEntry(accident):
 
 
 def newSeverityEntry(entrada1, accident):
-    """
-    Crea una entrada en el indice por tipo de crimen, es decir en
-    la tabla de hash, que se encuentra en cada nodo del arbol.
-    """
     sepentry = {'severity': None, 'lstSeverities': None}
     sepentry['severity'] = entrada1
     sepentry['lstSeverities'] = lt.newList('SINGLELINKED', compareSeverity)
@@ -183,49 +140,31 @@ def newSeverityEntry(entrada1, accident):
 
 
 def accidentsSize(analyzer):
-    """
-    Número de libros en el catago
-    """
     return lt.size(analyzer['accidents'])
 
 
 def indexHeight(analyzer):
-    """Numero de autores leido
-    """
     return om.height(analyzer['dateIndex'])
 
 
 def indexSize(analyzer):
-    """Numero de autores leido
-    """
     return om.size(analyzer['dateIndex'])
 
 
 def minKey(analyzer):
-    """Numero de autores leido
-    """
     return om.minKey(analyzer['dateIndex'])
 
 
 def maxKey(analyzer):
-    """Numero de autores leido
-    """
     return om.maxKey(analyzer['dateIndex'])
 
 
 def getAccidentsByRange(analyzer, initialDate, finalDate):
-    """
-    Retorna el numero de accidentes en un rago de fechas.
-    """
     lst = om.values(analyzer['dateIndex'], initialDate, finalDate)
     return lst
 
 
 def getAccidentsByRangeSeverity(analyzer, initialDate, severitycode):
-    """
-    Para una fecha determinada, retorna el numero de crimenes
-    de un tipo especifico.
-    """
     axidate = om.get(analyzer['dateIndex'], initialDate)
     if axidate['key'] is not None:
         severitymap = me.getValue(axidate)['SeverityIndex']
@@ -298,13 +237,10 @@ def ObtenerAccidentesPorHora(lst):
     dik={"Severidad1":0,"Severidad2":0,"Severidad3":0,"Severidad4":0}
     m=0
     tamanol=lt.size(lst)
-    print("# singlelinked con fecha distinta ó # de ramas en rango : "+str(tamanol))
     iterator = it.newIterator(lst)
     while it.hasNext(iterator):
         itet=it.next(iterator)
         tamanor=lt.size(itet["lstaccidents"])
-        #print("# de single linked con misma hora :"+str(tamanor)) ->1
-        #print(itet.keys())  r=lstaccidents
         i=0
         while i!=tamanor:
             iterator3=it.newIterator(itet["lstaccidents"])
@@ -332,9 +268,6 @@ def ObtenerAccidentesPorHora(lst):
     return (lista,dik)
 
 def getAccidentsByRangeHora(analyzer, initialDate, finalDate):
-    """
-    Retorna el numero de accidentes en un rago de fechas.
-    """
     lst = om.values(analyzer['hourIndex'], initialDate.time(), finalDate.time())
     return lst
 
@@ -344,9 +277,6 @@ def getAccidentsByRangeHora(analyzer, initialDate, finalDate):
 
 
 def compareIds(id1, id2):
-    """
-    Compara dos crimenes
-    """
     if (id1 == id2):
         return 0
     elif id1 > id2:
@@ -356,10 +286,6 @@ def compareIds(id1, id2):
 
 
 def compareDates(date1, date2):
-    """
-    Compara dos ids de libros, id es un identificador
-    y entry una pareja llave-valor
-    """
     if (date1 == date2):
         return 0
     elif (date1 > date2):
@@ -368,10 +294,6 @@ def compareDates(date1, date2):
         return -1
 
 def compareHour(hour1, hour2):
-    """
-    Compara dos ids de libros, id es un identificador
-    y entry una pareja llave-valor
-    """
     if (hour1 == hour2):
         return 0
     elif (hour1 > hour2):
@@ -381,10 +303,6 @@ def compareHour(hour1, hour2):
 
 
 def compareSeverity(severity1, severity2):
-    """
-    Compara dos ids de libros, id es un identificador
-    y entry una pareja llave-valor
-    """
     seve = me.getKey(severity2)
     if (severity1 == seve):
         return 0

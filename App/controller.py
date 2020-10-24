@@ -39,9 +39,6 @@ recae sobre el controlador.
 
 
 def init():
-    """
-    Llama la funcion de inicializacion del modelo.
-    """
     analyzer = model.newAnalyzer()
     return analyzer
 
@@ -52,9 +49,6 @@ def init():
 # ___________________________________________________
 
 def loadData(analyzer, accidentsfile):
-    """
-    Carga los datos de los archivos CSV en el modelo
-    """
 
     accidentsfile = cf.data_dir + accidentsfile
     input_file = csv.DictReader(open(accidentsfile, encoding="utf-8"),
@@ -69,59 +63,34 @@ def loadData(analyzer, accidentsfile):
 # ___________________________________________________
 
 def accidentsSize(analyzer):
-    """
-    Numero de crimenes leidos
-    """
     return model.accidentsSize(analyzer)
 
 def indexHeight(analyzer):
-    """
-    Altura del indice (arbol)
-    """
     return model.indexHeight(analyzer)
 
 
 def indexSize(analyzer):
-    """
-    Numero de nodos en el arbol
-    """
     return model.indexSize(analyzer)
 
 
 def minKey(analyzer):
-    """
-    La menor llave del arbol
-    """
     return model.minKey(analyzer)
 
 
 def maxKey(analyzer):
-    """
-    La mayor llave del arbol
-    """
     return model.maxKey(analyzer)
 
 def getAccidentsByRange(analyzer, initialDate,finalDate):
-    """
-    Retorna el total de accidentes en un rango de fechas
-    """
     initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
     finalDate = datetime.datetime.strptime(finalDate, '%Y-%m-%d')
     return model.getAccidentsByRange(analyzer, initialDate,finalDate)
 
 def getAccidentsByRangeHora(analyzer, initialDate,finalDate):
-    """
-    Retorna el total de accidentes en un rango de fechas
-    """
     initialDate = datetime.datetime.strptime(initialDate, '%H:%M:%S')
     finalDate = datetime.datetime.strptime(finalDate, '%H:%M:%S')
     return model.getAccidentsByRangeHora(analyzer, initialDate,finalDate)
 
 def getAccidentsByRangeSeverity(analyzer, initialDate, severity):
-    """
-    Retorna el total de crimenes de un tipo especifico en una
-    fecha determinada
-    """
     initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
     return model.getAccidentsByRangeSeverity(analyzer, initialDate.date(),severity)
 
