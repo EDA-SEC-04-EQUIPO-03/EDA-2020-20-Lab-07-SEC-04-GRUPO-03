@@ -33,37 +33,6 @@ Presenta el menu de opciones  y  por cada seleccion
 hace la solicitud al controlador para ejecutar la
 operación seleccionada.
 """
-def hallar_muyrepetido(lst):
-    lista=[]
-    iterator = it.newIterator(lst)
-    while it.hasNext(iterator):
-        itet=it.next(iterator)
-        iterator2 = it.newIterator(itet["lstaccidents"])
-        while it.hasNext(iterator2):
-            itet2=it.next(iterator2)
-            lista.append(itet2["Start_Time"])
-    maxi = 0
-    ret=None
-    for cada_fecha in lista:
-        cant=lista.count(cada_fecha)
-        if cant > maxi:
-            maxi = cant
-            ret=cada_fecha
-    return (ret,maxi)
-
-    #externo
-    #Total de accidentes antes de 2016-02-08 son: 1
-    #dict_keys(['iterable_lst', 'current_node', 'type'])
-
-    #Keys de iterable_lst
-    #Total de accidentes antes de 2016-02-08 son: 1
-    #dict_keys(['first', 'last', 'size', 'type', 'cmpfunction'])
-    #Values de iterable_lst
-    #Datos del excel    
-
-    #Keys de cada iterador, cada pos singlelikedlist
-    #dict_keys(['SeverityIndex', 'lstaccidents'])
-
 
 # ___________________________________________________
 #  Ruta a los archivos
@@ -163,7 +132,6 @@ while True:
         finalHour = input("Rango Final (HH-MM-SS): ")
         initialHour=controller.ajustarhora(initialHour)
         finalHour=controller.ajustarhora(finalHour)
-        #print(initialHour+","+finalHour)
         linked=controller.getAccidentsByRangeHora(cont, initialHour, finalHour)
         acc=controller.getAccidentesPorHora(linked)
         print("Los accidentes ocurridos entre: "+str(initialHour)+" y "+str(finalHour)+" son: "+str(acc[0][0]))
