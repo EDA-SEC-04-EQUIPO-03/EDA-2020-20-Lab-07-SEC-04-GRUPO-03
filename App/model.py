@@ -82,12 +82,12 @@ def updateHourIndex(map, accident):
     return map
 
 def newHourEntry(accident):
-    entry = {'lstaccidents': None}
-    entry['lstaccidents'] = lt.newList('SINGLE_LINKED', compareHour)
+    entry = {'listaccidentes': None}
+    entry['listaccidentes'] = lt.newList('SINGLE_LINKED', compareHour)
     return entry
 
 def addhour(datentry, accident):
-    lst = datentry['lstaccidents']
+    lst = datentry['listaccidentes']
     lt.addLast(lst, accident)
     return datentry
 
@@ -160,7 +160,7 @@ def maxKey(analyzer):
 
 
 def getAccidentsByRange(analyzer, initialDate, finalDate):
-    lst = om.values(analyzer['dateIndex'], initialDate, finalDate)
+    lst = om.values(analyzer['dateIndex'], initialDate.date(), finalDate.date())
     return lst
 
 
@@ -236,14 +236,13 @@ def ObtenerAccidentesPorHora(lst):
     lista=[]
     dik={"Severidad1":0,"Severidad2":0,"Severidad3":0,"Severidad4":0}
     m=0
-    tamanol=lt.size(lst)
     iterator = it.newIterator(lst)
     while it.hasNext(iterator):
         itet=it.next(iterator)
-        tamanor=lt.size(itet["lstaccidents"])
+        tamanor=lt.size(itet["listaccidentes"])
         i=0
         while i!=tamanor:
-            iterator3=it.newIterator(itet["lstaccidents"])
+            iterator3=it.newIterator(itet["listaccidentes"])
             while it.hasNext(iterator3):
                 itat=it.next(iterator3)
                 if int(itat["Severity"])==1:
@@ -257,10 +256,11 @@ def ObtenerAccidentesPorHora(lst):
             i+=1
         m=m+i
     lista.append(m)
-    porcentajesev1=round(((dik["Severidad1"]/m)*100),2)
-    porcentajesev2=round(((dik["Severidad2"]/m)*100),2)
-    porcentajesev3=round(((dik["Severidad3"]/m)*100),2)
-    porcentajesev4=round(((dik["Severidad4"]/m)*100),2)
+    if m!=0:
+        porcentajesev1=round(((dik["Severidad1"]/m)*100),2)
+        porcentajesev2=round(((dik["Severidad2"]/m)*100),2)
+        porcentajesev3=round(((dik["Severidad3"]/m)*100),2)
+        porcentajesev4=round(((dik["Severidad4"]/m)*100),2)
     lista.append(porcentajesev1)
     lista.append(porcentajesev2)
     lista.append(porcentajesev3)
@@ -322,9 +322,11 @@ def ajustarhora(hora):
     h2=hora[1]
     HH=h1+h2
     MM=m1+m2
-    if int(MM) < 30:
+    if int(HH)==23 and int(MM)==59:
+        ret=hora
+    elif int(MM) < 30 and int(MM) >= 1:
         ret=hora.replace(MM,"30")
-    elif int(MM) > 30 and int(HH)!=23:
+    elif int(MM) > 30:
         h2 = int(h2)+1
         ret=hora.replace(HH,h1+str(h2)).replace(MM,"00")
     elif int(MM) > 30 and int(HH)==23:

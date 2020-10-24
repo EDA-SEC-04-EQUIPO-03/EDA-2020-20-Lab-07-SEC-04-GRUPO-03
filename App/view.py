@@ -93,13 +93,15 @@ while True:
     elif int(inputs[0]) == 4:
         print("\nRequerimiento No 2 del reto 3: ")
         print("\nBuscando accidentes antes de una fecha: ")
+        total=0
         MinDate = str(controller.minKey(cont))
         MaxDate = input("Fecha (YYYY-MM-DD): ")
         total_acci=controller.getAccidentsByRange(cont, MinDate, MaxDate)
         iterator = it.newIterator(total_acci)
         while it.hasNext(iterator):
             ietar=it.next(iterator)
-            print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str((ietar["lstaccidents"]["size"])))
+            total=(ietar["lstaccidents"]["size"])+total
+        print("\nTotal de accidentes antes de "+str(MaxDate)+" son: "+ str(total))
         repetido=controller.getMasRepetido(total_acci)
         print("\nLa fecha con más accidentes es:"+str(repetido[0])+" con "+str(repetido[1])+" accidentes")
     elif int(inputs[0]) == 5:

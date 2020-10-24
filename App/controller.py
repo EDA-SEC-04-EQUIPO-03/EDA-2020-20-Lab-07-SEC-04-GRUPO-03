@@ -92,9 +92,6 @@ def getAccidentsByRangeHora(analyzer, initialDate,finalDate):
 
 def getAccidentsByRangeSeverity(analyzer, initialDate, severity):
     initialDate = datetime.datetime.strptime(initialDate, '%Y-%m-%d')
-<<<<<<< HEAD
-    return model.getAccidentsByRangeSeverity(analyzer, initialDate.date(),severity)
-=======
     return model.getAccidentsByRangeSeverity(analyzer, initialDate.date(),severity)
 
 def getStateInRange(lst):
@@ -108,9 +105,7 @@ def getMasRepetido(lst):
 def getCategoriaInRange(lst):
     cat=model.hallar_categoria(lst)
     return cat
-<<<<<<< HEAD
->>>>>>> ramita
-=======
+
 
 def getAccidentesPorHora(lst):
     acc=model.ObtenerAccidentesPorHora(lst)
@@ -119,4 +114,3 @@ def getAccidentesPorHora(lst):
 def ajustarhora(hora):
     a=model.ajustarhora(hora)
     return a
->>>>>>> ramita
